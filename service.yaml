@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: profile-service
+  name: uptime-kuma-service
   labels:
-    app: profile-service
+    app: uptime-kuma-service
 spec:
   type: ClusterIP
   ports:
@@ -16,4 +16,4 @@ spec:
     protocol: TCP
     targetPort: 443
   selector:
-    app: profile
+    app: uptime-kuma
