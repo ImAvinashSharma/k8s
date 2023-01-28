@@ -1,0 +1,30 @@
+# docker run -d --name vaultwarden -v /vw-data/:/data/ -p 80:80 vaultwarden/server:latest
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vaultwarden
+  namespace: vaultwarden
+  labels:
+    app: vaultwarden
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: vaultwarden
+  template:
+    metadata:
+      labels:
+        app: vaultwarden
+    spec:
+      containers:
+      - name: vaultwarden
+        image: vaultwarden/server
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - mountPath: "/data"
+          name: vaultwarden-volume
+      volumes:
+      - name: vaultwarden-volume
+        persistentVolumeClaim:
+          claimName: pvc-common

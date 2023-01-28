@@ -2,6 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: uptime-kuma
+  namespace: uptime-kuma
 spec:
   type: ClusterIP
   ports:
@@ -14,8 +15,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: uptime-kuma
+  namespace: uptime-kuma
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: uptime-kuma
@@ -24,8 +26,15 @@ spec:
       labels:
         app: uptime-kuma
     spec:
+      volumes:
+      - name: uptime-kuma  # < linkname of the volume for the
+        hostPath:
+          path: /var/uptime-kuma
       containers:
       - name: uptime-kuma
         image: louislam/uptime-kuma
         ports:
         - containerPort: 3001
+        volumeMounts:
+         -  name: uptime-kuma
+            mountPath: /app/data

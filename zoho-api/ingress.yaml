@@ -1,9 +1,8 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: ingress-k8s
+  name: zoho-api-ingress
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-prod
     kubernetes.io/ingress.class: nginx
 spec:
   rules:
@@ -17,7 +16,3 @@ spec:
             name: zoho-api
             port:
               number: 3002
-  tls:
-  - hosts:
-    - zoho-api.helo-k8s.fun
-    secretName: zoho-api.helo-k8s.fun-tls
