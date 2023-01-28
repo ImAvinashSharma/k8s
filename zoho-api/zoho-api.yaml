@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: zoho-api
+spec:
+  type: ClusterIP
+  ports:
+  - port: 3002
+    targetPort: 3002
+  selector:
+    app: zoho-api
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zoho-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: zoho-api
+  template:
+    metadata:
+      labels:
+        app: zoho-api
+    spec:
+      containers:
+      - name: zoho-api
+        image: avinashsharma1/zoho:api
+        ports:
+        - containerPort: 3002

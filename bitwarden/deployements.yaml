@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bitwarden
+  labels:
+    name: bitwarden
+spec:
+  selector:
+    matchLabels:
+      pod: bitwarden
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        pod: bitwarden
+    spec:
+      volumes:
+      - name: bitwarden-data
+        hostPath:
+          path: /var/heimdall
+      serviceAccountName: bitwarden
+      containers:
+        - name: bitwarden
+          image: bitwardenrs/server:latest
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: ADMIN_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: bitwarden-admin-token
+                  key: token
+          envFrom:
+            - configMapRef:
+                name: bitwarden
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+            - containerPort: 3012
+              name: websocket
+              protocol: TCP
+          resources:
+            limits:
+              cpu: 200m
+              memory: 512Mi
+            requests:
+              cpu: 50m
+              memory: 256Mi
+          volumeMounts:
+            - mountPath: /data
+              name: bitwarden-data

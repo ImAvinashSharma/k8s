@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: zoho-api.helo-k8s.fun
+  namespace: default
+spec:
+  secretName: zoho-api.helo-k8s.fun-tls
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  commonName: zoho-api.helo-k8s.fun
+  dnsNames:
+  - zoho-api.helo-k8s.fun

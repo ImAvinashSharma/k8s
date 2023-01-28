@@ -6,13 +6,35 @@ metadata:
     kubernetes.io/ingress.class: nginx
 spec:
   rules:
-  - host: up.helo-k8s.fun
-    http:
-      paths:
-      - pathType: Prefix
-        path: "/"
-        backend:
-          service:
-            name: uptime-kuma
-            port:
-              number: 3001
+  # - host: up.helo-k8s.fun
+  #   http:
+  #     paths:
+  #     - pathType: Prefix
+  #       path: "/"
+  #       backend:
+  #         service:
+  #           name: uptime-kuma
+  #           port:
+  #             number: 3001
+
+  # - host: zoho-api.helo-k8s.fun
+  #   http:
+  #     paths:
+  #     - pathType: Prefix
+  #       path: "/"
+  #       backend:
+  #         service:
+  #           name: zoho-api
+  #           port:
+  #             number: 3002
+
+  # - host: jellyfin.helo-k8s.fun
+  #   http:
+  #     paths:
+  #     - pathType: Prefix
+  #       path: "/"
+  #       backend:
+  #         service:
+  #           name: jellyfin
+  #           port:
+  #             number: 8096
