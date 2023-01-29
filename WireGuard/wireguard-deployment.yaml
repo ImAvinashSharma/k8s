@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wireguard
+  labels:
+    app: wireguard
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wireguard
+  strategy:
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: wireguard
+    spec:
+      volumes:
+      - name: wireguard
+        hostPath:
+          path: /var/wireguard
+      containers:
+        - env:
+            - name: ALLOWEDIPS
+              value: 0.0.0.0/0
+            - name: PGID
+              value: "1000"
+            - name: PUID
+              value: "1000"
+            - name: SERVERPORT
+              value: "51820"
+            - name: PEERS
+              value: "1"
+            - name: PEERDNS
+              value: "auto"
+            - name: SERVERURL
+              value: wireguard.helo-k8s.fun
+            - name: TZ
+              value: Asia/Kolkata
+          image: lscr.io/linuxserver/wireguard:latest
+          name: wireguard
+          ports:
+            - containerPort: 51820
+              protocol: UDP
+          volumeMounts:
+          -  name: wireguard
+             mountPath: /config
+          securityContext:
+            privileged: true
+            capabilities:
+              add:
+                - NET_ADMIN
+                - SYS_MODULE
+      restartPolicy: Always
